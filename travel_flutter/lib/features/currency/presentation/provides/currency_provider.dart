@@ -8,13 +8,11 @@ part 'currency_provider.g.dart';
 class CurrencyScheduleNotifier extends _$CurrencyScheduleNotifier {
   @override
   Future<CurrencyResponse> build({
-    required String apiKey,
     String? baseCurrency,
     String? currencies,
   }) async {
     final repository = ref.watch(currencyRepositoryProvider);
     final result = await repository.getLatestCurrencies(
-      apiKey: apiKey,
       baseCurrency: baseCurrency,
       currencies: currencies,
     );

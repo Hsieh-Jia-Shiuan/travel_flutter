@@ -7,7 +7,7 @@ part of 'currency_provider.dart';
 // **************************************************************************
 
 String _$currencyScheduleNotifierHash() =>
-    r'20c8e8d3488da2afffa3125777e73746e2e1ecd3';
+    r'243fdc739e5a7a7d4aa2e7e4cc5b21fb47abaf4b';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -32,15 +32,10 @@ class _SystemHash {
 
 abstract class _$CurrencyScheduleNotifier
     extends BuildlessAutoDisposeAsyncNotifier<CurrencyResponse> {
-  late final String apiKey;
   late final String? baseCurrency;
   late final String? currencies;
 
-  FutureOr<CurrencyResponse> build({
-    required String apiKey,
-    String? baseCurrency,
-    String? currencies,
-  });
+  FutureOr<CurrencyResponse> build({String? baseCurrency, String? currencies});
 }
 
 /// See also [CurrencyScheduleNotifier].
@@ -55,12 +50,10 @@ class CurrencyScheduleNotifierFamily
 
   /// See also [CurrencyScheduleNotifier].
   CurrencyScheduleNotifierProvider call({
-    required String apiKey,
     String? baseCurrency,
     String? currencies,
   }) {
     return CurrencyScheduleNotifierProvider(
-      apiKey: apiKey,
       baseCurrency: baseCurrency,
       currencies: currencies,
     );
@@ -71,7 +64,6 @@ class CurrencyScheduleNotifierFamily
     covariant CurrencyScheduleNotifierProvider provider,
   ) {
     return call(
-      apiKey: provider.apiKey,
       baseCurrency: provider.baseCurrency,
       currencies: provider.currencies,
     );
@@ -100,27 +92,22 @@ class CurrencyScheduleNotifierProvider
           CurrencyResponse
         > {
   /// See also [CurrencyScheduleNotifier].
-  CurrencyScheduleNotifierProvider({
-    required String apiKey,
-    String? baseCurrency,
-    String? currencies,
-  }) : this._internal(
-         () => CurrencyScheduleNotifier()
-           ..apiKey = apiKey
-           ..baseCurrency = baseCurrency
-           ..currencies = currencies,
-         from: currencyScheduleNotifierProvider,
-         name: r'currencyScheduleNotifierProvider',
-         debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-             ? null
-             : _$currencyScheduleNotifierHash,
-         dependencies: CurrencyScheduleNotifierFamily._dependencies,
-         allTransitiveDependencies:
-             CurrencyScheduleNotifierFamily._allTransitiveDependencies,
-         apiKey: apiKey,
-         baseCurrency: baseCurrency,
-         currencies: currencies,
-       );
+  CurrencyScheduleNotifierProvider({String? baseCurrency, String? currencies})
+    : this._internal(
+        () => CurrencyScheduleNotifier()
+          ..baseCurrency = baseCurrency
+          ..currencies = currencies,
+        from: currencyScheduleNotifierProvider,
+        name: r'currencyScheduleNotifierProvider',
+        debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+            ? null
+            : _$currencyScheduleNotifierHash,
+        dependencies: CurrencyScheduleNotifierFamily._dependencies,
+        allTransitiveDependencies:
+            CurrencyScheduleNotifierFamily._allTransitiveDependencies,
+        baseCurrency: baseCurrency,
+        currencies: currencies,
+      );
 
   CurrencyScheduleNotifierProvider._internal(
     super._createNotifier, {
@@ -129,12 +116,10 @@ class CurrencyScheduleNotifierProvider
     required super.allTransitiveDependencies,
     required super.debugGetCreateSourceHash,
     required super.from,
-    required this.apiKey,
     required this.baseCurrency,
     required this.currencies,
   }) : super.internal();
 
-  final String apiKey;
   final String? baseCurrency;
   final String? currencies;
 
@@ -142,11 +127,7 @@ class CurrencyScheduleNotifierProvider
   FutureOr<CurrencyResponse> runNotifierBuild(
     covariant CurrencyScheduleNotifier notifier,
   ) {
-    return notifier.build(
-      apiKey: apiKey,
-      baseCurrency: baseCurrency,
-      currencies: currencies,
-    );
+    return notifier.build(baseCurrency: baseCurrency, currencies: currencies);
   }
 
   @override
@@ -155,7 +136,6 @@ class CurrencyScheduleNotifierProvider
       origin: this,
       override: CurrencyScheduleNotifierProvider._internal(
         () => create()
-          ..apiKey = apiKey
           ..baseCurrency = baseCurrency
           ..currencies = currencies,
         from: from,
@@ -163,7 +143,6 @@ class CurrencyScheduleNotifierProvider
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
-        apiKey: apiKey,
         baseCurrency: baseCurrency,
         currencies: currencies,
       ),
@@ -182,7 +161,6 @@ class CurrencyScheduleNotifierProvider
   @override
   bool operator ==(Object other) {
     return other is CurrencyScheduleNotifierProvider &&
-        other.apiKey == apiKey &&
         other.baseCurrency == baseCurrency &&
         other.currencies == currencies;
   }
@@ -190,7 +168,6 @@ class CurrencyScheduleNotifierProvider
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, apiKey.hashCode);
     hash = _SystemHash.combine(hash, baseCurrency.hashCode);
     hash = _SystemHash.combine(hash, currencies.hashCode);
 
@@ -202,9 +179,6 @@ class CurrencyScheduleNotifierProvider
 // ignore: unused_element
 mixin CurrencyScheduleNotifierRef
     on AutoDisposeAsyncNotifierProviderRef<CurrencyResponse> {
-  /// The parameter `apiKey` of this provider.
-  String get apiKey;
-
   /// The parameter `baseCurrency` of this provider.
   String? get baseCurrency;
 
@@ -221,8 +195,6 @@ class _CurrencyScheduleNotifierProviderElement
     with CurrencyScheduleNotifierRef {
   _CurrencyScheduleNotifierProviderElement(super.provider);
 
-  @override
-  String get apiKey => (origin as CurrencyScheduleNotifierProvider).apiKey;
   @override
   String? get baseCurrency =>
       (origin as CurrencyScheduleNotifierProvider).baseCurrency;

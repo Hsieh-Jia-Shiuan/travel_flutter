@@ -33,6 +33,7 @@ final currencyRepositoryProvider = Provider<CurrencyRepository>((ref) {
 
   final networkInfo = ref.watch(networkInfoProvider);
   return CurrencyRepositoryImpl(
+    currencyApiKey: currencyApiKey,
     remoteDataSource: remoteDataSource,
     networkInfo: networkInfo,
   );

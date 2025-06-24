@@ -18,14 +18,12 @@ class CurrencyPage extends ConsumerStatefulWidget {
 class _CurrencyPageState extends ConsumerState<CurrencyPage> {
   String baseCurrency = "USD";
   String baseAmountInput = "1.00";
-  final String apiKey = dotenv.env['API_KEY'] ?? '';
   final String currencies = "EUR,JPY,USD,CNY,AUD,KRW";
 
   @override
   Widget build(BuildContext context) {
     final asyncValue = ref.watch(
       currencyScheduleNotifierProvider(
-        apiKey: apiKey,
         baseCurrency: baseCurrency,
         currencies: currencies,
       ),
@@ -104,7 +102,6 @@ class _CurrencyPageState extends ConsumerState<CurrencyPage> {
                                 ref
                                     .read(
                                       currencyScheduleNotifierProvider(
-                                        apiKey: apiKey,
                                         baseCurrency: baseCurrency,
                                         currencies: currencies,
                                       ).notifier,
