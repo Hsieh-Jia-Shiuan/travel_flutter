@@ -12,11 +12,27 @@ https://www.kia.gov.tw/API/InstantSchedule.ashx?AirFlyLine=2&AirFlyIO=2
 
 ## 匯率資訊 ##
 匯率API(須先註冊取api key)
-規格:https://freecurrencyapi.com/docs/latest
+- 註冊: https://freecurrencyapi.com
+- 規格: https://freecurrencyapi.com/docs/latest
 
 ## 設定 API Key 為環境變數 (FREE_CURRENCY_API_KEY)
 
 本專案使用 Dart/Flutter 的編譯時環境變數來管理 API Key。
+
+### 使用 VSCode 啟動專案
+
+如果你使用 VSCode，可以在 `.vscode/launch.json` 的 `args` 加入：
+
+```json
+"args": [
+  "--dart-define-from-file=./env/currency_key.json"
+]
+```
+
+#### 注意事項
+- 請確認 `args` 參數正確設置於你要啟動的 configuration 內。
+- 若未正確設置 `--dart-define-from-file`，app 內部將無法取得 API KEY。
+- `currency_key.json` 請參考 `currency_key.json.example` 建立。
 
 ### 開發/測試時 (包含實機)
 
