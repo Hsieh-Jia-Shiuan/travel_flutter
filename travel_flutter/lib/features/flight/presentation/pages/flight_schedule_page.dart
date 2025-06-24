@@ -6,6 +6,7 @@ import 'package:travel_flutter/features/flight/presentation/widgets/flight_sched
 import 'package:travel_flutter/shared/domain/models/flight_schedule_response.dart';
 import 'package:travel_flutter/shared/theme/colors.dart';
 import 'package:travel_flutter/shared/theme/styles.dart';
+import 'package:travel_flutter/shared/widgets/navigator_bar_widget.dart';
 
 enum AirFlyIO { departure, arrival }
 
@@ -49,103 +50,126 @@ class _FlightPageState extends ConsumerState<FlightSchedulePage> {
           ),
         ),
       ),
-      body: Column(
+      body: Stack(
         children: [
-          // 國際/國內 SegmentedButton
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ChoiceChip(
-                  label: Text(
-                    tr('flight.line_type.international'),
-                    style: button12TextStyle.copyWith(
-                      color: selectedLineTypeIndex == 0
-                          ? primary300Color
-                          : secondary300Color.withAlpha(50),
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  selected: selectedLineTypeIndex == 0,
-                  onSelected: (selected) {
-                    if (selected) setState(() => selectedLineTypeIndex = 0);
-                  },
+          Column(
+            children: [
+              // 國際線, 國內線
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
                 ),
-                const SizedBox(width: 8),
-                ChoiceChip(
-                  label: Text(
-                    tr('flight.line_type.domestic'),
-                    style: button12TextStyle.copyWith(
-                      color: selectedLineTypeIndex == 1
-                          ? primary300Color
-                          : secondary300Color.withAlpha(50),
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  selected: selectedLineTypeIndex == 1,
-                  onSelected: (selected) {
-                    if (selected) setState(() => selectedLineTypeIndex = 1);
-                  },
-                ),
-              ],
-            ),
-          ),
-          // 出發/抵達 Tab
-          TabBarWidget(
-            selectedTabIndex: selectedTabIndex,
-            onTabSelected: (index) => setState(() => selectedTabIndex = index),
-          ),
-          Expanded(
-            child: asyncValue.when(
-              data: (schedules) => schedules.isEmpty
-                  ? Center(
-                      child: Text(
-                        tr('common.no_data'),
-                        style: body16TextStyle.copyWith(
-                          color: neutral900Color,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    )
-                  : FlightList(
-                      schedules: schedules,
-                      currentAirFlyIO: currentAirFlyIO,
-                    ),
-              loading: () => const Center(child: CircularProgressIndicator()),
-              error: (e, st) => Center(
-                child: Column(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      tr('common.error', namedArgs: {'err': e.toString()}),
-                      style: body16TextStyle.copyWith(
-                        color: Colors.red,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    ElevatedButton(
-                      onPressed: () {
-                        final notifier = ref.read(
-                          flightScheduleNotifierProvider(
-                            airFlyLine,
-                            airFlyIO,
-                          ).notifier,
-                        );
-                        notifier.refresh();
-                      },
-                      child: Text(
-                        tr('common.reload'),
-                        style: body16TextStyle.copyWith(
-                          color: neutral900Color,
-                          fontWeight: FontWeight.w400,
+                    ChoiceChip(
+                      label: Text(
+                        tr('flight.line_type.international'),
+                        style: button12TextStyle.copyWith(
+                          color: selectedLineTypeIndex == 0
+                              ? primary300Color
+                              : secondary300Color.withAlpha(50),
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
+                      selected: selectedLineTypeIndex == 0,
+                      onSelected: (selected) {
+                        if (selected) setState(() => selectedLineTypeIndex = 0);
+                      },
+                    ),
+                    const SizedBox(width: 8),
+                    ChoiceChip(
+                      label: Text(
+                        tr('flight.line_type.domestic'),
+                        style: button12TextStyle.copyWith(
+                          color: selectedLineTypeIndex == 1
+                              ? primary300Color
+                              : secondary300Color.withAlpha(50),
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      selected: selectedLineTypeIndex == 1,
+                      onSelected: (selected) {
+                        if (selected) setState(() => selectedLineTypeIndex = 1);
+                      },
                     ),
                   ],
                 ),
               ),
+
+              // 出發 / 抵達 Tab
+              TabBarWidget(
+                selectedTabIndex: selectedTabIndex,
+                onTabSelected: (index) =>
+                    setState(() => selectedTabIndex = index),
+              ),
+              Expanded(
+                child: asyncValue.when(
+                  data: (schedules) => schedules.isEmpty
+                      ? Center(
+                          child: Text(
+                            tr('common.no_data'),
+                            style: body16TextStyle.copyWith(
+                              color: neutral900Color,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        )
+                      : FlightList(
+                          schedules: schedules,
+                          currentAirFlyIO: currentAirFlyIO,
+                        ),
+                  loading: () =>
+                      const Center(child: CircularProgressIndicator()),
+                  error: (e, st) => Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          tr('common.error', namedArgs: {'err': e.toString()}),
+                          style: body16TextStyle.copyWith(
+                            color: Colors.red,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        ElevatedButton(
+                          onPressed: () {
+                            final notifier = ref.read(
+                              flightScheduleNotifierProvider(
+                                airFlyLine,
+                                airFlyIO,
+                              ).notifier,
+                            );
+                            notifier.refresh();
+                          },
+                          child: Text(
+                            tr('common.reload'),
+                            style: body16TextStyle.copyWith(
+                              color: neutral900Color,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+
+          Positioned(
+            bottom: 30,
+            left: 0,
+            right: 0,
+            child: Container(
+              margin: const EdgeInsets.symmetric(horizontal: 20),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: const NavigatorBarWidget(),
             ),
           ),
         ],
@@ -195,7 +219,7 @@ class FlightList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
-      padding: const EdgeInsets.all(8),
+      padding: const EdgeInsets.fromLTRB(8, 8, 8, 120),
       itemCount: schedules.length,
       separatorBuilder: (_, __) => const SizedBox(height: 8),
       itemBuilder: (context, index) {

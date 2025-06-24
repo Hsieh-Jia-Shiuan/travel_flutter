@@ -4,7 +4,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final httpClientProvider = Provider<http.Client>((ref) => http.Client());
 
-final networkServiceProvider = Provider<HttpNetworkService>((ref) {
+final flightNetworkServiceProvider = Provider<HttpNetworkService>((ref) {
   final client = ref.watch(httpClientProvider);
   return HttpNetworkService(client, baseUrl: 'https://www.kia.gov.tw/API');
+});
+
+final currencyNetworkServiceProvider = Provider<HttpNetworkService>((ref) {
+  final client = ref.watch(httpClientProvider);
+  return HttpNetworkService(client, baseUrl: 'https://api.freecurrencyapi.com');
 });

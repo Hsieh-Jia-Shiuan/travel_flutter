@@ -23,3 +23,5 @@ const Color neutral200Color = Color(0xFFEEEEEE);
 const Color neutral100Color = Color(0xFFF5F5F5);
 const Color neutral50Color = Color(0xFFFFFFFF);
 const Color neutral0Color = Color(0xFFFFFFFF);
+
+const Color backgroundGrayColor = Color(0xFFFAFAFA);

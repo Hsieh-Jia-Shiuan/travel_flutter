@@ -1,17 +1,17 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:travel_flutter/features/flight/data/repositories/flight_schedule_repository_impl.dart';
-import 'package:travel_flutter/features/flight/domain/repositories/flight_schedule_repository.dart';
-import 'package:travel_flutter/features/flight/data/datasource/flight_remote_data_source.dart';
+import 'package:travel_flutter/features/currency/data/datasource/currency_remote_date_source.dart';
+import 'package:travel_flutter/features/currency/data/repositories/currency_repository_impl.dart';
+import 'package:travel_flutter/features/currency/domain/repositories/currency_repository.dart';
 import 'package:travel_flutter/core/network/network_info.dart';
 import 'package:travel_flutter/shared/data/remote/remote.dart';
 import 'package:travel_flutter/shared/domain/providers/http_network_service_provider.dart';
 
-// get flight from api
-final flightRemoteDataSourceProvider =
-    Provider.family<FlightRemoteDataSource, NetworkService>(
+// get Currency from api
+final currencyRemoteDataSourceProvider =
+    Provider.family<CurrencyRemoteDataSource, NetworkService>(
       (_, networkService) =>
-          FlightRemoteDataSourceImpl(networkService: networkService),
+          CurrencyRemoteDataSourceImpl(networkService: networkService),
     );
 
 // check connection
@@ -24,17 +24,15 @@ final networkInfoProvider = Provider<NetworkInfo>((ref) {
 });
 
 // return api response
-final flightScheduleRepositoryProvider = Provider<FlightScheduleRepository>((
-  ref,
-) {
-  final networkService = ref.watch(flightNetworkServiceProvider);
+final currencyRepositoryProvider = Provider<CurrencyRepository>((ref) {
+  final networkService = ref.watch(currencyNetworkServiceProvider);
 
   final remoteDataSource = ref.watch(
-    flightRemoteDataSourceProvider(networkService),
+    currencyRemoteDataSourceProvider(networkService),
   );
 
   final networkInfo = ref.watch(networkInfoProvider);
-  return FlightScheduleRepositoryImpl(
+  return CurrencyRepositoryImpl(
     remoteDataSource: remoteDataSource,
     networkInfo: networkInfo,
   );

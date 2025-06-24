@@ -28,5 +28,8 @@
             "terminal_gate": "航廈/登機門: {num}",
             "delay_reason": "延誤原因: {reason}"
         }
+    },
+    "currency": {
+        "title": "匯率資訊"
     }
 }
