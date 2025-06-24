@@ -1,0 +1,32 @@
+{
+    "app_name": "Tavel Damo",
+    "common": {
+        "no_data": "查無資料",
+        "reload": "重新載入",
+        "error": "發生錯誤 {err}"
+    },
+    "navigation": {
+        "flight": "航班",
+        "currency": "匯率"
+    },
+    "flight": {
+        "title": "航班資訊",
+        "current_airport_code": "KHH",
+        "current_airport_name": "高雄國際機場",
+        "line_type": {
+            "international": "國際線",
+            "domestic": "國內線"
+        },
+        "io_type": {
+            "departure": "起飛班機",
+            "arrival": "抵達班機"
+        },
+        "item": {
+            "estimated_time": "預計時間",
+            "actual_time": "實際時間",
+            "flight_number": "航機班號: {num}",
+            "terminal_gate": "航廈/登機門: {num}",
+            "delay_reason": "延誤原因: {reason}"
+        }
+    }
+}
