@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:travel_flutter/routes/app_routes.dart';
 import 'package:travel_flutter/shared/theme/colors.dart';
@@ -38,6 +39,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: primary500Color),
         useMaterial3: true,
+        appBarTheme: AppBarTheme(
+          systemOverlayStyle: SystemUiOverlayStyle(
+            statusBarColor: Colors.transparent,
+            statusBarIconBrightness: Brightness.dark, // Android: 黑色icon
+            statusBarBrightness: Brightness.light, // iOS: 黑色icon
+          ),
+        ),
       ),
     );
   }
